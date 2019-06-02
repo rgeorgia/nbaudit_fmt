@@ -4,6 +4,7 @@ import sys
 import json
 import pprint
 from collections import defaultdict
+from typing import List
 
 
 def read_args():
@@ -15,19 +16,30 @@ def read_args():
 
 
 def write_to_screen(input_data: str, fmt_json: bool):
-    data_dict = {}
-
     if fmt_json:
-        pp = pprint.PrettyPrinter(indent=4, depth=4)
-        for line in input_data:
-            data_dict[''.join(line.strip().split()[1:2])] = {"vuln": line.strip().split()[4:5],
-                                                             "url": line.split()[-1:]}
-
+        pp = pprint.PrettyPrinter(indent=2)
+        print(json_data(input_data=input_data))
     else:
-        for line in input_data:
-            print(''.join(line.strip().split()[1:2]), end=",")
-            print(''.join(line.strip().split()[4:5]), end=",")
-            print(''.join(line.strip().split()[-1:]))
+        for line in csv_data(input_data=input_data):
+            print(line)
+
+
+def csv_data(input_data: str) -> list:
+    new_list: List[str] = []
+    for line in input_data:
+        new_list.append(','.join(line.strip().split()[1:2] +
+                                 line.strip().split()[4:5] +
+                                 line.strip().split()[-1:]))
+    return new_list
+
+
+def json_data(input_data: str) -> dict:
+    data_dict = defaultdict(list)
+    for line in input_data:
+        data_dict[''.join(line.strip().split()[1:2])].append(
+            {"vuln": line.strip().split()[4:5], "url": line.split()[-1:]})
+
+    return json.dumps(data_dict)
 
 
 def write_file(input_data: str, fmt_json: bool, filename: str):
