@@ -2,7 +2,6 @@
 import argparse
 import sys
 import json
-import pprint
 from collections import defaultdict
 from typing import List
 
@@ -17,7 +16,6 @@ def read_args():
 
 def write_to_screen(input_data: str, fmt_json: bool):
     if fmt_json:
-        pp = pprint.PrettyPrinter(indent=2)
         print(json_data(input_data=input_data))
     else:
         for line in csv_data(input_data=input_data):
@@ -43,7 +41,12 @@ def json_data(input_data: str) -> dict:
 
 
 def write_file(input_data: str, fmt_json: bool, filename: str):
-    pass
+    with open(filename, 'w') as f:
+        if fmt_json:
+            f.write(json_data(input_data=input_data))
+        else:
+            for line in csv_data(input_data=input_data):
+                f.write(f"{line}\n")
 
 
 def main():
@@ -62,7 +65,7 @@ def main():
         data = sys.stdin.readlines()
 
     if args.output_file:
-        write_file(input_data=data, fmt_json=fmt_json, filename=args.outfile)
+        write_file(input_data=data, fmt_json=fmt_json, filename=args.output_file)
     else:
         write_to_screen(input_data=data, fmt_json=fmt_json)
 
