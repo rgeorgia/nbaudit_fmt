@@ -32,11 +32,10 @@ $ pkg_admin audit | audit-fmt.py --fmt=json
 #### JSON output to file
 ```bash
 $ pkg_admin audit | audit-fmt.py --fmt=json --outfile=myfile.json
-
+```
 
 
 #### CSV output to file
 ```bash
 $ pkg_admin audit | audit-fmt.py --outfile=myfile.csv
-```
 ```
