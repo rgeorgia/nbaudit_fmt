@@ -59,7 +59,7 @@ def main():
     # sys.stdin.isatty() returns a False if there is something in stdin, i.e. piped in
     if sys.stdin.isatty():
         print("There is no standard in data. Pipe the output of a file to this script.")
-        print(f"Example: pkg_audit | {sys.argv[0]}")
+        print(f"Example: pkg_admin audit | {sys.argv[0]}")
         sys.exit(1)
     else:
         data = sys.stdin.readlines()
